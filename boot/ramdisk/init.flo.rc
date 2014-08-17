@@ -448,8 +448,8 @@ service ppd /system/bin/mm-pp-daemon
     socket pps stream 0660 system system
     group system graphics
 
-service conn_init /system/bin/conn_init
-    class late_start
+service wcnss_init /system/bin/sh /system/etc/init.flo.wifi.sh
+    class main
     user system
     group system wifi
     seclabel u:r:conn_init:s0
