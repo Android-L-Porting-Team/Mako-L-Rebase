@@ -117,8 +117,6 @@ on boot
     write /proc/sys/net/ipv6/conf/rmnet_sdio6/accept_ra 2
     write /proc/sys/net/ipv6/conf/rmnet_sdio7/accept_ra 2
 
-    #Enable logging of the wake up reasons in the kernel log
-    write /sys/module/msm_show_resume_irq/parameters/debug_mask 1
 
 # NFC: create data/nfc for nv storage
     mkdir /data/nfc 770 nfc nfc
@@ -360,6 +358,7 @@ service sensors /system/bin/sensors.qcom
 service wpa_supplicant /system/bin/wpa_supplicant \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
     -I/system/etc/wifi/wpa_supplicant_overlay.conf \
+    -O/data/misc/wifi/sockets \
     -e/data/misc/wifi/entropy.bin -g@android:wpa_wlan0
     #   we will start as root and wpa_supplicant will switch to user wifi
     #   after setting up the capabilities required for WEXT
@@ -375,7 +374,7 @@ service p2p_supplicant /system/bin/wpa_supplicant \
     -I/system/etc/wifi/p2p_supplicant_overlay.conf -N \
     -iwlan0 -Dnl80211 -c/data/misc/wifi/wpa_supplicant.conf \
     -I/system/etc/wifi/wpa_supplicant_overlay.conf \
-    -puse_p2p_group_interface=1 \
+    -O/data/misc/wifi/sockets -puse_p2p_group_interface=1 \
     -e/data/misc/wifi/entropy.bin -g@android:wpa_wlan0
 #   we will start as root and wpa_supplicant will switch to user wifi
 #   after setting up the capabilities required for WEXT
@@ -420,9 +419,8 @@ on property:ro.data.large_tcp_window_size=true
     # Adjust socket buffer to enlarge TCP receive window for high bandwidth (e.g. DO-RevB)
     write /proc/sys/net/ipv4/tcp_adv_win_scale  1
 
-service charger /sbin/healthd -c
+service charger /charger
     class charger
-    critical
     seclabel u:r:healthd:s0
 
 # virtual sdcard daemon running as media_rw (1023)
@@ -438,17 +436,17 @@ service mpdecision /system/bin/mpdecision --no_sleep --avg_comp
     user root
     group root system
 
+service qcamerasvr /system/bin/mm-qcamera-daemon
+    class late_start
+    user camera
+    group camera system inet input
+    
 service ppd /system/bin/mm-pp-daemon
     class late_start
     disabled
     user system
     socket pps stream 0660 system system
     group system graphics
-
-service qcamerasvr /system/bin/mm-qcamera-daemon
-    class late_start
-    user camera
-    group camera system inet input
 
 service wcnss_init /system/bin/sh /system/etc/init.flo.wifi.sh
     class main
@@ -480,8 +478,6 @@ service diag_mdlog /system/bin/diag_mdlog -s 100
     class late_start
     disabled
 
-
-
 # on property:gsm.sim.state=READY
 #    start diag_mdlog
 
@@ -492,7 +488,6 @@ on property:ro.boot.baseband=mdm
 on property:ro.boot.baseband=apq
     setprop ro.radio.noril yes
     stop ril-daemon
-
 on property:init.svc.surfaceflinger=running
     start ppd
 

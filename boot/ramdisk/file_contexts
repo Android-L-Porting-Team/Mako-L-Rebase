@@ -32,9 +32,9 @@
 /dev(/.*)?		u:object_r:device:s0
 /dev/akm8973.*		u:object_r:sensors_device:s0
 /dev/accelerometer	u:object_r:sensors_device:s0
-/dev/adf[0-9]*		u:object_r:adf_device:s0
-/dev/adf-interface[0-9]*\.[0-9]*	u:object_r:adf_device:s0
-/dev/adf-overlay-engine[0-9]*\.[0-9]*	u:object_r:adf_device:s0
+/dev/adf[0-9]*		u:object_r:graphics_device:s0
+/dev/adf-interface[0-9]*\.[0-9]*	u:object_r:graphics_device:s0
+/dev/adf-overlay-engine[0-9]*\.[0-9]*	u:object_r:graphics_device:s0
 /dev/alarm		u:object_r:alarm_device:s0
 /dev/android_adb.*	u:object_r:adb_device:s0
 /dev/ashmem		u:object_r:ashmem_device:s0
@@ -100,6 +100,7 @@
 /dev/socket/wpa_eth[0-9] u:object_r:wpa_socket:s0
 /dev/socket/wpa_wlan[0-9] u:object_r:wpa_socket:s0
 /dev/socket/zygote	u:object_r:zygote_socket:s0
+/dev/socket/zygote_secondary	u:object_r:zygote_socket:s0
 /dev/spdif_out.*	u:object_r:audio_device:s0
 /dev/tegra.*		u:object_r:video_device:s0
 /dev/tf_driver		u:object_r:tee_device:s0
@@ -157,6 +158,13 @@
 /system/bin/inputflinger u:object_r:inputflinger_exec:s0
 /system/bin/logd        u:object_r:logd_exec:s0
 /system/bin/uncrypt     u:object_r:uncrypt_exec:s0
+/system/bin/logwrapper  u:object_r:system_file:s0
+/system/bin/vdc         u:object_r:vdc_exec:s0
+/system/bin/install-recovery.sh u:object_r:install_recovery_exec:s0
+/system/bin/dex2oat     u:object_r:dex2oat_exec:s0
+# patchoat executable has (essentially) the same requirements as dex2oat.
+/system/bin/patchoat    u:object_r:dex2oat_exec:s0
+
 #############################
 # Vendor files
 #
@@ -173,17 +181,19 @@
 /data/system/ndebugsocket	u:object_r:system_ndebug_socket:s0
 /data/drm(/.*)?		u:object_r:drm_data_file:s0
 /data/gps(/.*)?		u:object_r:gps_data_file:s0
+/data/resource-cache(/.*)? u:object_r:resourcecache_data_file:s0
 /data/dalvik-cache(/.*)? u:object_r:dalvikcache_data_file:s0
 /data/dalvik-cache/profiles(/.*)? u:object_r:dalvikcache_profiles_data_file:s0
 /data/anr(/.*)?		u:object_r:anr_data_file:s0
-/data/app(/.*)?		u:object_r:apk_data_file:s0
-/data/app/vmdl.*\.tmp	u:object_r:apk_tmp_file:s0
-/data/app-private(/.*)?		u:object_r:apk_private_data_file:s0
-/data/app-private/vmdl.*\.tmp	u:object_r:apk_private_tmp_file:s0
+/data/app(/.*)?                       u:object_r:apk_data_file:s0
+/data/app/vmdl.*\.tmp(/.*)?           u:object_r:apk_tmp_file:s0
+/data/app-private(/.*)?               u:object_r:apk_private_data_file:s0
+/data/app-private/vmdl.*\.tmp(/.*)?   u:object_r:apk_private_tmp_file:s0
 /data/tombstones(/.*)?	u:object_r:tombstone_data_file:s0
 /data/local/tmp(/.*)?	u:object_r:shell_data_file:s0
 /data/media(/.*)?	u:object_r:media_rw_data_file:s0
 /data/mediadrm(/.*)?	u:object_r:media_data_file:s0
+/data/property(/.*)?	u:object_r:property_data_file:s0
 
 # Misc data
 /data/misc/adb(/.*)?            u:object_r:adb_keys_file:s0
@@ -196,6 +206,8 @@
 /data/misc/dhcp(/.*)?           u:object_r:dhcp_data_file:s0
 /data/misc/keystore(/.*)?       u:object_r:keystore_data_file:s0
 /data/misc/media(/.*)?          u:object_r:media_data_file:s0
+/data/misc/net(/.*)?            u:object_r:net_data_file:s0
+/data/misc/shared_relro(/.*)?   u:object_r:shared_relro_file:s0
 /data/misc/sms(/.*)?            u:object_r:radio_data_file:s0
 /data/misc/systemkeys(/.*)?     u:object_r:systemkeys_data_file:s0
 /data/misc/vpn(/.*)?            u:object_r:vpn_data_file:s0
@@ -231,10 +243,10 @@
 
 #############################
 # asec containers
-/mnt/asec(/.*)?           u:object_r:asec_apk_file:s0
-/mnt/asec/[^/]+/res\.zip   u:object_r:asec_public_file:s0
-/mnt/asec/[^/]+/lib(/.*)? u:object_r:asec_public_file:s0
-/data/app-asec(/.*)?      u:object_r:asec_image_file:s0
+/mnt/asec(/.*)?             u:object_r:asec_apk_file:s0
+/mnt/asec/[^/]+/[^/]+\.zip  u:object_r:asec_public_file:s0
+/mnt/asec/[^/]+/lib(/.*)?   u:object_r:asec_public_file:s0
+/data/app-asec(/.*)?        u:object_r:asec_image_file:s0
 #line 1 "device/asus/flo/sepolicy/file_contexts"
 # Used by keystore to access trustzone
 /dev/qseecom        u:object_r:tee_device:s0
@@ -272,9 +284,6 @@
 
 # CPU governor controls
 /dev/socket/mpdecision(/.*)?           u:object_r:mpdecision_socket:s0
-
-# HDMI output socket (mm-pp-daemon)
-/dev/socket/pps                        u:object_r:ppd_socket:s0
 
 ## Radio related
 # modem driver
@@ -359,7 +368,6 @@
 /system/bin/mm-qcamera-daemon      u:object_r:camera_exec:s0
 /system/bin/qseecomd               u:object_r:tee_exec:s0
 /system/bin/conn_init              u:object_r:conn_init_exec:s0
-/system/bin/mm-pp-daemon           u:object_r:ppd_exec:s0
 /system/bin/irsc_util              u:object_r:irsc_util_exec:s0
 
 # Persist firmware filesystem
