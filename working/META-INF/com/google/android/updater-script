@@ -1,9 +1,7 @@
 (!less_than_int(1404347231, getprop("ro.build.date.utc"))) || abort("Can't install this package (Wed Jul  2 20:27:11 EDT 2014) over newer build (" + getprop("ro.build.date") + ").");
 getprop("ro.product.device") == "mako" || abort("This package is for \"mako\" devices; this is a \"" + getprop("ro.product.device") + "\".");
 show_progress(0.500000, 0);
-unmount("/system");
-format("ext4", "EMMC", "/dev/block/platform/msm_sdcc.1/by-name/system", "0", "/system");
-mount("ext4", "EMMC", "/dev/block/platform/msm_sdcc.1/by-name/system", "/system");
+run_program("/sbin/busybox", "mount", "/system");
 package_extract_dir("recovery", "/system");
 package_extract_dir("system", "/system");
 symlink("../libbluetooth_jni.so", "/system/lib/Bluetooth/libbluetooth_jni.so");
@@ -178,4 +176,4 @@ show_progress(0.200000, 0);
 show_progress(0.200000, 10);
 package_extract_file("boot.img", "/dev/block/platform/msm_sdcc.1/by-name/boot");
 show_progress(0.100000, 0);
-unmount("/system");
+run_program("/sbin/busybox", "unmount", "/system");
