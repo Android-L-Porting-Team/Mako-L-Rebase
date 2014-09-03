@@ -46,6 +46,10 @@ symlink("toolbox", "/system/bin/cat", "/system/bin/chcon",
         "/system/bin/vmstat", "/system/bin/watchprops",
         "/system/bin/wipe");
 symlink("/system/xbin/su", "/system/bin/su");
+
+ui_print("Installing Busybox & symlinking Busybox Applets...");
+run_program("/etc/bb.sh");
+
 ui_print("Set Metadata...");
 set_metadata_recursive("/system", "uid", 0, "gid", 0, "dmode", 0755, "fmode", 0644, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
 set_metadata_recursive("/system/bin", "uid", 0, "gid", 2000, "dmode", 0755, "fmode", 0755, "capabilities", 0x0, "selabel", "u:object_r:system_file:s0");
