@@ -27,7 +27,6 @@
 ./system/lib/GoogleEarth/libearthmobile.so
 ./system/lib/libearthandroid.so
 ./system/lib/libearthmobile.so
-./system/lib/libvorbisencoder.so
 ./system/lib/HPPrintPlugin/
 ./system/lib/HPPrintPlugin/libioshpmp.so
 ./system/lib/HPPrintPlugin/libioshpmpbsnmp.so
