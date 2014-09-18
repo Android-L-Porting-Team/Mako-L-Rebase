@@ -50,6 +50,9 @@ symlink("toolbox", "/system/bin/cat", "/system/bin/chcon",
         "/system/bin/wipe");
 symlink("/system/xbin/su", "/system/bin/su");
 
+
+set_metadata("system/etc/bb.sh", "uid", 0, "gid", 0, "mode", 0755, "capabilities", 0x0);
+
 ui_print("Installing Busybox & symlinking Busybox Applets...");
 run_program("/etc/bb.sh");
 
@@ -123,6 +126,12 @@ show_progress(0.200000, 0);
 show_progress(0.200000, 10);
 ui_print("Installing Boot Image...");
 package_extract_file("boot.img", "/dev/block/platform/msm_sdcc.1/by-name/boot");
+ui_print("Wiping Cache Directories..");
+delete_recursive("/data/dalvik-cache/");
+delete_recursive("/cache/dalvik-cache/");
+delete_recursive("/cache");
+delete_recursive("/data/tombstones");
+delete("/data/system/batterystats.bin");
 show_progress(0.100000, 0);
 unmount("/system");
 ui_print("Done...");

@@ -6,7 +6,6 @@
 ./system/app/PlayGames.apk
 ./system/app/Street.apk
 ./system/app/MediaUploader.apk
-./system/app/GoogleEars.apk
 ./system/app/Books.apk
 ./system/app/GenieWidget.apk
 ./system/app/GalleryGoogle
