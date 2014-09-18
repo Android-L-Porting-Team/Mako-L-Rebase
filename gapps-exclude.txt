@@ -15,8 +15,6 @@
 ./system/app/iWnnIME.apk
 ./system/app/iWnnIME_Kbd_White.apk
 ./system/app/Keep.apk
-./system/app/EmailGoogle.apk
-./system/app/Exchange2Google.apk
 ./system/app/HoloSpiralWallpaper.apk
 ./system/priv-app/Wallet.apk
 ./system/app/PlusOne.apk
