@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (C) 2008 The Android Open Source Project
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+  
+          http://www.apache.org/licenses/LICENSE-2.0
+  
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+
+<!-- This file is used to define the mappings between lower-level system
+     user and group IDs and the higher-level permission names managed
+     by the platform.
+
+     Be VERY careful when editing this file!  Mistakes made here can open
+     big security holes.
+-->
+<permissions>
+
+    <!-- ================================================================== -->
+    <!-- ================================================================== -->
+    <!-- ================================================================== -->
+
+    <!-- The following tags are associating low-level group IDs with
+         permission names.  By specifying such a mapping, you are saying
+         that any application process granted the given permission will
+         also be running with the given group ID attached to its process,
+         so it can perform any filesystem (read, write, execute) operations
+         allowed for that group. -->
+
+    <permission name="android.permission.BLUETOOTH_ADMIN" >
+    </permission>
+
+    <permission name="android.permission.CALL_PRIVILEGED" >
+    </permission>    
+    
+    <permission name="android.permission.INTERACT_ACROSS_USERS_FULL" >
+    </permission>    
+    
+    <permission name="android.permission.MODIFY_AUDIO_SETTINGS" >
+    </permission>
+    
+    <permission name="android.permission.READ_CALL_LOG" >
+    </permission>
+    
+    <permission name="android.permission.STOP_APP_SWITCHES" >
+    </permission>
+    
+    <permission name="android.permission.VIBRATE" >
+    </permission>
+    
+    <permission name="android.permission.WRITE_CALL_LOG" >
+    </permission>
+    
+    <permission name="android.permission.RECEIVE_BOOT_COMPLETED" >
+    </permission>
+    
+    <permission name="android.permission.ACCESS_NETWORK_STATE" >
+    </permission>
+    
+    <permission name="android.permission.INTERNET" >
+    </permission>
+    
+    <permission name="android.permission.WRITE_EXTERNAL_STORAGE" >
+    </permission>
+    
+    <permission name="android.permission.RECEIVE_SMS" >
+    </permission>
+    
+    <permission name="android.permission.RECEIVE_EMERGENCY_BROADCAST" >
+    </permission>
+    
+    <permission name="android.permission.RECEIVE_BOOT_COMPLETED" >
+    </permission>
+    
+    <permission name="android.permission.READ_PHONE_STATE" >
+    </permission>
+    
+    <permission name="android.permission.WAKE_LOCK" >
+    </permission>
+    
+    <permission name="android.permission.DISABLE_KEYGUARD" >
+    </permission>
+    
+    <permission name="android.permission.CHANGE_NETWORK_STATE" >
+    </permission>
+    
+    <permission name="android.permission.ACCESS_WIFI_STATE" >
+    </permission>
+    
+    <permission name="android.permission.ACCESS_COARSE_LOCATION" >
+    </permission>
+    
+    <permission name="android.permission.ACCESS_FINE_LOCATION" >
+    </permission>
+   
+    <permission name="android.permission.INSTALL_LOCATION_PROVIDER" >
+    </permission>
+    
+    <permission name="android.permission.CONNECTIVITY_INTERNAL" >
+    </permission>
+         
+</permissions>
+
+
