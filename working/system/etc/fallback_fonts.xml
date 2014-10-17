@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
+    NOTE: this file is the legacy format, for compatibility with apps. The new,
+    more flexible format is fonts.xml. Please keep the two in sync until the legacy
+    format can be fully removed.
+
     Fallback Fonts
 
     This file specifies the fonts, and the priority order, that will be searched for any
@@ -219,17 +223,47 @@
     </family>
     <family>
         <fileset>
+            <file>NotoSansCherokee-Regular.ttf</file>
+        </fileset>
+    </family>
+    <family>
+        <fileset>
+            <file>NotoSansCanadianAboriginal-Regular.ttf</file>
+        </fileset>
+    </family>
+    <family>
+        <fileset>
+            <file>NotoSansYi-Regular.ttf</file>
+        </fileset>
+    </family>
+    <family>
+        <fileset>
+            <file lang="zh-Hans">NotoSansHans-Regular.otf</file>
+        </fileset>
+    </family>
+    <family>
+        <fileset>
+            <file lang="zh-Hant">NotoSansHant-Regular.otf</file>
+        </fileset>
+    </family>
+    <family>
+        <fileset>
+            <file lang="ja">NotoSansJP-Regular.otf</file>
+        </fileset>
+    </family>
+    <family>
+        <fileset>
+            <file lang="ko">NotoSansKR-Regular.otf</file>
+        </fileset>
+    </family>
+    <family>
+        <fileset>
             <file>NanumGothic.ttf</file>
         </fileset>
     </family>
     <family>
         <fileset>
             <file>NotoSansSymbols-Regular-Subsetted.ttf</file>
-        </fileset>
-    </family>
-    <family>
-        <fileset>
-            <file>AndroidEmoji.ttf</file>
         </fileset>
     </family>
     <family>

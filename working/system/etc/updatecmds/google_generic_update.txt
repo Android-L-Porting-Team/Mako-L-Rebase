@@ -19,10 +19,6 @@ com.google.android.gsf:com.android.providers.im
 com.google.android.gm:com.google.android.providers.gmail
     databases
 
-# Calendar couldn't use original-package due to a shared user ID
-com.google.android.calendar:com.android.calendar
-    shared_prefs
-
 # Google Backup transport signature change due to auth changes 
 com.google.android.backuptransport:com.google.android.backup
     shared_prefs

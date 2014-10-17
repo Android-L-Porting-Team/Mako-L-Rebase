@@ -12,8 +12,8 @@
     <ctl name="LINEOUT3 Volume" value="12" />
     <ctl name="LINEOUT4 Volume" value="12" />
     <ctl name="LINEOUT5 Volume" value="12" />
-    <ctl name="HPHL Volume" value="6" />
-    <ctl name="HPHR Volume" value="6" />
+    <ctl name="HPHL Volume" value="9" />
+    <ctl name="HPHR Volume" value="9" />
     <ctl name="RX1 Digital Volume" value="84" />
     <ctl name="RX2 Digital Volume" value="84" />
     <ctl name="RX3 Digital Volume" value="84" />
@@ -21,6 +21,10 @@
     <ctl name="RX5 Digital Volume" value="84" />
     <ctl name="RX6 Digital Volume" value="84" />
     <ctl name="RX7 Digital Volume" value="84" />
+    <ctl name="RX3 HPF Switch" value="1" />
+    <ctl name="RX4 HPF Switch" value="1" />
+    <ctl name="RX3 HPF cut off" value="MIN_3DB_4Hz" />
+    <ctl name="RX4 HPF cut off" value="MIN_3DB_4Hz" />
     <ctl name="ADC1 Volume" value="3" />
     <ctl name="ADC2 Volume" value="3" />
     <ctl name="ADC3 Volume" value="3" />
@@ -116,6 +120,7 @@
     <ctl name="SLIM_0_TX Channels" value="One" />
     <ctl name="SLIM_3_RX Channels" value="One" />
     <ctl name="HDMI_RX Channels" value="Two" />
+    <ctl name="Internal BTSCO SampleRate" value="8000" />
 
     <!-- These are audio route (FE to BE) specific mixer settings -->
     <path name="deep-buffer-playback">
@@ -135,6 +140,11 @@
         <ctl name="INTERNAL_BT_SCO_RX Audio Mixer MultiMedia1" value="1" />
     </path>
 
+    <path name="deep-buffer-playback bt-sco-wb">
+        <ctl name="Internal BTSCO SampleRate" value="16000" />
+        <path name="deep-buffer-playback bt-sco" />
+    </path>
+
     <path name="low-latency-playback">
         <ctl name="SLIMBUS_0_RX Audio Mixer MultiMedia5" value="1" />
     </path>
@@ -144,6 +154,11 @@
     </path>
     <path name="low-latency-playback bt-sco">
         <ctl name="INTERNAL_BT_SCO_RX Audio Mixer MultiMedia5" value="1" />
+    </path>
+
+    <path name="low-latency-playback bt-sco-wb">
+        <ctl name="Internal BTSCO SampleRate" value="16000" />
+        <path name="low-latency-playback bt-sco" />
     </path>
 
     <path name="low-latency-playback speaker-and-hdmi">
@@ -163,12 +178,22 @@
         <ctl name="MultiMedia1 Mixer INTERNAL_BT_SCO_TX" value="1" />
     </path>
 
+    <path name="audio-record bt-sco-wb">
+        <ctl name="Internal BTSCO SampleRate" value="16000" />
+        <path name="audio-record bt-sco" />
+    </path>
+
     <path name="low-latency-record">
         <ctl name="MultiMedia5 Mixer SLIM_0_TX" value="1" />
     </path>
 
     <path name="low-latency-record bt-sco">
         <ctl name="MultiMedia5 Mixer INTERNAL_BT_SCO_TX" value="1" />
+    </path>
+
+    <path name="low-latency-record bt-sco-wb">
+        <ctl name="Internal BTSCO SampleRate" value="16000" />
+        <path name="low-latency-record bt-sco" />
     </path>
 
     <path name="voice-call">
@@ -185,7 +210,6 @@
     </path>
 
     <path name="voice-call bt-sco">
-        <ctl name="Internal BTSCO SampleRate" value="8000" />
         <ctl name="Voice Stub Tx Mixer INTERNAL_BT_SCO_TX" value="1" />
         <ctl name="SLIMBUS_1_RX Mixer Voice Stub" value="1" />
         <ctl name="Voice Stub Tx Mixer SLIM_1_TX" value="1" />
@@ -195,6 +219,11 @@
         <ctl name="SLIM_3_RX Channels" value="One" />
         <ctl name="SLIMBUS_3_RX_Voice Mixer Voice Stub" value="1" />
         <ctl name="SLIMBUS_3_RX Port Mixer INTERNAL_BT_SCO_RX" value="1" />
+    </path>
+
+    <path name="voice-call bt-sco-wb">
+        <ctl name="Internal BTSCO SampleRate" value="16000" />
+        <path name="voice-call bt-sco" />
     </path>
 
     <!-- These are actual sound device specific mixer settings -->
@@ -223,50 +252,58 @@
     </path>
 
     <path name="speaker">
-        <ctl name="SLIM_0_RX Channels" value="One" />
-        <ctl name="RX3 MIX1 INP1" value="RX1" />
-        <ctl name="RX3 MIX1 INP2" value="RX6" />
-        <ctl name="RX4 DSM MUX" value="DSM_INV" />
-        <ctl name="SLIM TX3 MUX" value="RMIX3" />
+        <ctl name="SLIM_0_RX Channels" value="Two" />
+        <ctl name="RX3 HPF cut off" value="MIN_3DB_150Hz" />
+        <ctl name="RX4 HPF cut off" value="MIN_3DB_150Hz" />
+        <ctl name="RX3 HPF Switch" value="0" />
+        <ctl name="RX4 HPF Switch" value="0" />
+        <ctl name="RX3 MIX1 INP1" value="RX2" />
+        <ctl name="RX4 MIX1 INP1" value="RX1" />
+        <ctl name="SLIM TX3 MUX" value="RMIX4" />
+        <ctl name="SLIM TX5 MUX" value="RMIX3" />
     </path>
 
+    <!-- same as speaker but with left and right swapped -->
     <path name="speaker-reverse">
-        <!-- mono speaker, no channel swap here -->
-        <path name="speaker" />
+        <ctl name="SLIM_0_RX Channels" value="Two" />
+        <ctl name="RX3 HPF cut off" value="MIN_3DB_150Hz" />
+        <ctl name="RX4 HPF cut off" value="MIN_3DB_150Hz" />
+        <ctl name="RX3 HPF Switch" value="0" />
+        <ctl name="RX4 HPF Switch" value="0" />
+        <ctl name="RX3 MIX1 INP1" value="RX1" />
+        <ctl name="RX4 MIX1 INP1" value="RX2" />
+        <ctl name="SLIM TX3 MUX" value="RMIX3" />
+        <ctl name="SLIM TX5 MUX" value="RMIX4" />
     </path>
 
     <path name="speaker-mic">
-        <path name="adc3" />
-        <ctl name="DEC4 Volume" value="99" />
+        <path name="dmic1" />
+        <ctl name="DEC7 Volume" value="101" />
     </path>
 
     <path name="handset">
-        <ctl name="SLIM_0_RX Channels" value="One" />
-        <ctl name="RX1 MIX1 INP1" value="RX1" />
-        <ctl name="RX1 MIX1 INP2" value="RX6" />
-        <ctl name="EAR PA Gain" value="POS_6_DB" />
-        <ctl name="DAC1 Switch" value="1" />
-        <ctl name="SLIM TX3 MUX" value="RMIX1" />
+        <path name="speaker" />
     </path>
 
     <path name="handset-mic">
-        <path name="adc1" />
-        <ctl name="DEC6 Volume" value="99" />
+        <ctl name="TX7 HPF cut off" value="MIN_3DB_150Hz" />
+        <path name="dmic1" />
+        <ctl name="DEC7 Volume" value="104" />
     </path>
 
     <path name="headphones">
         <ctl name="SLIM_0_RX Channels" value="Two" />
         <ctl name="RX1 MIX1 INP1" value="RX1" />
-        <ctl name="RX1 MIX1 INP2" value="RX6" />
         <ctl name="RX2 MIX1 INP1" value="RX2" />
-        <ctl name="RX2 MIX1 INP2" value="RX7" />
         <ctl name="HPHL DAC Switch" value="1" />
         <ctl name="SLIM TX3 MUX" value="RMIX1" />
         <ctl name="SLIM TX5 MUX" value="RMIX2" />
     </path>
 
     <path name="headset-mic">
+        <ctl name="TX8 HPF cut off" value="MIN_3DB_150Hz" />
         <path name="adc2" />
+        <ctl name="DEC8 Volume" value="103" />
         <ctl name="ADC2 Volume" value="2" />
     </path>
 
@@ -279,8 +316,8 @@
     </path>
 
     <path name="voice-speaker-mic">
-        <path name="adc3" />
-        <ctl name="DEC4 Volume" value="87" />
+        <path name="dmic1" />
+        <ctl name="DEC7 Volume" value="104" />
     </path>
 
     <path name="voice-headphones">
@@ -292,13 +329,18 @@
     </path>
 
     <path name="speaker-and-headphones">
-        <path name="headphones" />
-        <ctl name="RX3 MIX1 INP1" value="RX1" />
-        <ctl name="RX3 MIX1 INP2" value="RX6" />
-        <ctl name="RX5 MIX1 INP1" value="RX2" />
-        <ctl name="RX5 MIX1 INP2" value="RX7" />
-        <ctl name="RX4 DSM MUX" value="DSM_INV" />
-        <ctl name="RX6 DSM MUX" value="DSM_INV" />
+        <ctl name="SLIM_0_RX Channels" value="Two" />
+        <ctl name="RX1 MIX1 INP1" value="RX1" />
+        <ctl name="RX2 MIX1 INP1" value="RX2" />
+        <ctl name="HPHL DAC Switch" value="1" />
+        <ctl name="RX3 HPF cut off" value="MIN_3DB_150Hz" />
+        <ctl name="RX4 HPF cut off" value="MIN_3DB_150Hz" />
+        <ctl name="RX3 HPF Switch" value="0" />
+        <ctl name="RX4 HPF Switch" value="0" />
+        <ctl name="RX3 MIX1 INP1" value="RX2" />
+        <ctl name="RX4 MIX1 INP1" value="RX1" />
+        <ctl name="SLIM TX3 MUX" value="RMIX4" />
+        <ctl name="SLIM TX5 MUX" value="RMIX3" />
     </path>
 
     <path name="hdmi">
@@ -310,13 +352,15 @@
     </path>
 
     <path name="voice-rec-mic">
-        <path name="adc1" />
-        <ctl name="ADC1 Volume" value="2" />
+        <ctl name="TX7 HPF cut off" value="MIN_3DB_150Hz" />
+        <path name="dmic1" />
+        <ctl name="DEC7 Volume" value="104" />
     </path>
 
     <path name="camcorder-mic">
-        <path name="adc1" />
-        <ctl name="DEC6 Volume" value="89" />
+        <ctl name="TX7 HPF cut off" value="MIN_3DB_150Hz" />
+        <path name="dmic1" />
+        <ctl name="DEC7 Volume" value="104" />
     </path>
 
     <path name="hdmi-mic">
@@ -411,8 +455,6 @@
         <ctl name="RX1 MIX1 INP1" value="RX6" />
         <ctl name="RX1 MIX1 INP2" value="RX6" />
         <ctl name="HPHL DAC Switch" value="1" />
-        <ctl name="HPHL Volume" value="9" />
-        <ctl name="HPHR Volume" value="9" />
     </path>
 
     <path name="voice-tty-full-headphones">
@@ -439,7 +481,14 @@
     </path>
 
     <path name="voice-tty-vco-handset-mic">
-        <path name="adc1" />
+        <path name="dmic1" />
+        <ctl name="DEC7 Volume" value="104" />
+    </path>
+
+    <path name="bt-sco-headset-wb">
+    </path>
+
+    <path name="bt-sco-mic-wb">
     </path>
 
 </mixer>
