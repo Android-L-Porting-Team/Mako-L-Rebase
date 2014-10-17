@@ -23,7 +23,7 @@ on early-init
     setenforce 0
     # Set the security context of /adb_keys if present.
     restorecon /adb_keys
-
+    setenforce 0
     start ueventd
 
     # create mountpoints
@@ -87,7 +87,7 @@ on init
     # Filesystem image public mount points.
     mkdir /mnt/obb 0700 root system
     mount tmpfs tmpfs /mnt/obb mode=0755,gid=1000
-    
+
     # memory control cgroup
     mkdir /dev/memcg 0700 root system
     mount cgroup none /dev/memcg memory
@@ -158,12 +158,12 @@ on init
     chown system log /sys/fs/pstore/console-ramoops
     chmod 0440 /sys/fs/pstore/console-ramoops
 
-  # Healthd can trigger a full boot from charger mode by signaling this
-  # property when the power button is held.
+# Healthd can trigger a full boot from charger mode by signaling this
+# property when the power button is held.
 on property:sys.boot_from_charger_mode=1
     class_stop charger
     trigger late-init
-    
+
 # Load properties from /system/ + /factory after fs mount.
 on load_all_props_action
     load_all_props
@@ -202,13 +202,10 @@ on post-fs
     chmod 0770 /cache
     # We restorecon /cache in case the cache partition has been reset.
     restorecon_recursive /cache
-    
+
     # This may have been created by the recovery system with odd permissions
     chown system cache /cache/recovery
     chmod 0770 /cache/recovery
-
-    # This may have been created by the recovery system with the wrong context.
-    restorecon /cache/recovery
 
     #change permissions on vmallocinfo so we can grab it from bugreports
     chown root log /proc/vmallocinfo
@@ -274,6 +271,7 @@ on post-fs-data
     mkdir /data/misc/wifi 0770 wifi wifi
     mkdir /data/misc/wifi/sockets 0770 wifi wifi
     mkdir /data/misc/wifi/wpa_supplicant 0770 wifi wifi
+    mkdir /data/misc/ethernet 0770 system system
     mkdir /data/misc/dhcp 0770 dhcp dhcp
     mkdir /data/misc/user 0771 root root
     # give system access to wpa_supplicant.conf for backup and restore
@@ -290,13 +288,11 @@ on post-fs-data
     mkdir /data/app-lib 0771 system system
     mkdir /data/app 0771 system system
     mkdir /data/property 0700 root root
-    mkdir /data/ssh 0750 root shell
-    mkdir /data/ssh/empty 0700 root root
 
     # create dalvik-cache, so as to enforce our permissions
-    mkdir /data/dalvik-cache 0771 system system
-    mkdir /data/dalvik-cache/profiles 0771 system system
-    
+    mkdir /data/dalvik-cache 0771 root root
+    mkdir /data/dalvik-cache/profiles 0711 system system
+
     # create resource-cache and double-check the perms
     mkdir /data/resource-cache 0771 system system
     chown system system /data/resource-cache
@@ -418,21 +414,6 @@ on boot
     chown system system /sys/kernel/ipv4/tcp_rmem_max
     chown root radio /proc/cmdline
 
-    # Define TCP buffer sizes for various networks
-    #   ReadMin, ReadInitial, ReadMax, WriteMin, WriteInitial, WriteMax,
-    setprop net.tcp.buffersize.default  4096,87380,110208,4096,16384,110208
-    setprop net.tcp.buffersize.wifi     524288,1048576,2097152,262144,524288,1048576
-    setprop net.tcp.buffersize.ethernet 524288,1048576,3145728,524288,1048576,2097152
-    setprop net.tcp.buffersize.lte      524288,1048576,2097152,262144,524288,1048576
-    setprop net.tcp.buffersize.umts     58254,349525,1048576,58254,349525,1048576
-    setprop net.tcp.buffersize.hspa     40778,244668,734003,16777,100663,301990
-    setprop net.tcp.buffersize.hsupa    40778,244668,734003,16777,100663,301990
-    setprop net.tcp.buffersize.hsdpa    61167,367002,1101005,8738,52429,262114
-    setprop net.tcp.buffersize.hspap    122334,734003,2202010,32040,192239,576717
-    setprop net.tcp.buffersize.edge     4093,26280,70800,4096,16384,70800
-    setprop net.tcp.buffersize.gprs     4092,8760,48000,4096,8760,48000
-    setprop net.tcp.buffersize.evdo     4094,87380,262144,4096,16384,262144
-
     # Define default initial receive window size in segments.
     setprop net.tcp.default_init_rwnd 60
 
@@ -442,14 +423,13 @@ on nonencrypted
     class_start main
     class_start late_start
 
+on property:vold.decrypt=trigger_default_encryption
+    start defaultcrypto
+
 on property:vold.decrypt=trigger_encryption
     start surfaceflinger
     start encrypt
-    class_start main    
-    
-on property:vold.decrypt=trigger_default_encryption
-    start defaultcrypto
-    
+
 on property:sys.init_log_level=*
     loglevel ${sys.init_log_level}
 
@@ -508,7 +488,7 @@ service healthd /sbin/healthd
     class core
     critical
     seclabel u:r:healthd:s0
-    
+
 service console /system/bin/sh
     class core
     console
@@ -530,12 +510,12 @@ service adbd /sbin/adbd --root_seclabel=u:r:su:s0
 # adbd on at boot in emulator
 on property:ro.kernel.qemu=1
     start adbd
- 
+
 service lmkd /system/bin/lmkd
     class core
     critical
     socket lmkd seqpacket 0660 system system
-    
+
 service servicemanager /system/bin/servicemanager
     class core
     user system
@@ -546,7 +526,7 @@ service servicemanager /system/bin/servicemanager
     onrestart restart media
     onrestart restart surfaceflinger
     onrestart restart drm
-   
+
 service vold /system/bin/vold
     class core
     socket vold stream 0660 root mount
@@ -573,11 +553,11 @@ service ril-daemon /system/bin/rild
     group radio cache inet misc audio log
 
 service surfaceflinger /system/bin/surfaceflinger
-    class main
+    class core
     user system
     group graphics drmrpc
     onrestart restart zygote
-    
+
 service drm /system/bin/drmserver
     class main
     user drm
@@ -591,22 +571,22 @@ service media /system/bin/mediaserver
 
 # One shot invocation to deal with encrypted volume.
 service defaultcrypto /system/bin/vdc --wait cryptfs mountdefaultencrypted
-     disabled
-     oneshot
-# vold will set vold.decrypt to trigger_restart_framework (default
-# encryption) or trigger_restart_min_framework (other encryption)
+    disabled
+    oneshot
+    # vold will set vold.decrypt to trigger_restart_framework (default
+    # encryption) or trigger_restart_min_framework (other encryption)
 
 # One shot invocation to encrypt unencrypted volumes
 service encrypt /system/bin/vdc --wait cryptfs enablecrypto inplace default
     disabled
     oneshot
-# vold will set vold.decrypt to trigger_restart_framework (default
-# encryption)
-    
+    # vold will set vold.decrypt to trigger_restart_framework (default
+    # encryption)
+
 service bootanim /system/bin/bootanimation
-    class main
+    class core
     user graphics
-    group graphics
+    group graphics audio
     disabled
     oneshot
 
@@ -616,6 +596,7 @@ service installd /system/bin/installd
 
 service flash_recovery /system/bin/install-recovery.sh
     class main
+    seclabel u:r:install_recovery:s0
     oneshot
 
 service racoon /system/bin/racoon
@@ -645,10 +626,6 @@ service dumpstate /system/bin/dumpstate -s
     disabled
     oneshot
 
-service sshd /system/bin/start-ssh
-    class main
-    disabled
-
 service mdnsd /system/bin/mdnsd
     class main
     user mdnsr
@@ -656,7 +633,7 @@ service mdnsd /system/bin/mdnsd
     socket mdnsd stream 0660 mdnsr inet
     disabled
     oneshot
-    
+
 service pre-recovery /system/bin/uncrypt
     class main
     disabled
