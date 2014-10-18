@@ -89,7 +89,6 @@ radio.phonesubinfo                        u:object_r:radio_service:s0
 radio.phone                               u:object_r:radio_service:s0
 radio.sms                                 u:object_r:radio_service:s0
 restrictions                              u:object_r:system_server_service:s0
-rttmanager                                u:object_r:system_server_service:s0
 samplingprofiler                          u:object_r:system_server_service:s0
 scheduling_policy                         u:object_r:system_server_service:s0
 search                                    u:object_r:system_server_service:s0
@@ -103,6 +102,7 @@ sip                                       u:object_r:radio_service:s0
 statusbar                                 u:object_r:system_server_service:s0
 SurfaceFlinger                            u:object_r:surfaceflinger_service:s0
 task                                      u:object_r:system_server_service:s0
+telecomm                                  u:object_r:radio_service:s0
 telecom                                   u:object_r:radio_service:s0
 telephony.registry                        u:object_r:system_server_service:s0
 textservices                              u:object_r:system_server_service:s0
