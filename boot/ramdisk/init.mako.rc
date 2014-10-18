@@ -15,11 +15,11 @@
 #
 
 import init.mako.usb.rc
-import init.mako_svelte.rc
 
 on early-init
     mount debugfs debugfs /sys/kernel/debug
     chown system system /sys/kernel/debug/kgsl/proc
+    symlink /data/tombstones /tombstones
 
 on init
     # See storage config details at http://source.android.com/tech/storage/
@@ -40,13 +40,10 @@ on init
     symlink /storage/emulated/legacy /storage/sdcard0
     symlink /mnt/shell/emulated/0 /storage/emulated/legacy
 
-    # Setup custom emergency number list based on
-    # the MCC. This is needed by RIL.
-    setprop persist.radio.custom_ecc "1"
-    setprop persist.radio.custom_ecc_mcc "{234,235,424,426,427,430,431:999},{334:060,066},{422:9999},{730:133}"
-    setprop persist.radio.custom_ecc_mcc_ex "{450:111,112,113,119,122,125,127},{724:190}"
-    setprop persist.radio.custom_ecc_voice "{515:117},{452:113,114,115}"
-    setprop persist.radio.custom_ecc_hard "911,*911,#911,112,999,000,08,118,120,122,110,119,995,111,113,125,127,133"
+on init
+    # Set permissions for persist partition
+    mkdir /persist 0771 system system
+    mkdir /firmware 0771 system system
 
 on fs
     mount_all ./fstab.mako
@@ -78,10 +75,6 @@ on boot
     #port-bridge
     chmod 0660 /dev/smd0
     chown system system /dev/smd0
-
-    #BT DUN port-bridge
-    chmod 0660 /dev/smd7
-    chown bluetooth bluetooth /dev/smd7
 
     chmod 0444 /sys/devices/platform/msm_hsusb/gadget/usb_state
 
@@ -128,7 +121,7 @@ on boot
 
     #Enable logging of the wake up reasons in the kernel log
     write /sys/module/msm_show_resume_irq/parameters/debug_mask 1
-    
+
 # NFC: create data/nfc for nv storage
     mkdir /data/nfc 770 nfc nfc
     mkdir /data/nfc/param 770 nfc nfc
@@ -142,11 +135,18 @@ on boot
 on post-fs-data
     mkdir /data/media 0770 media_rw media_rw
 
+    chown system system /dev/wcnss_wlan
+    write /sys/module/wcnss_ssr_8960/parameters/enable_riva_ssr 1
+
+    mkdir /data/tombstones 0771 system system
+    mkdir /tombstones/modem 0771 system system
+    mkdir /tombstones/lpass 0771 system system
+    mkdir /tombstones/wcnss 0771 system system
+    mkdir /tombstones/dsps 0771 system system
+    mkdir /tombstones/mdm 0771 system system
+
 # to observe dnsmasq.leases file for dhcp information of soft ap.
     chown dhcp system /data/misc/dhcp
-
-    write /dev/wcnss_wlan 1
-    write /sys/module/wcnss_ssr_8960/parameters/enable_riva_ssr 1
 
     # Create directory used by audio subsystem
     mkdir /data/misc/audio 0770 audio audio
@@ -229,6 +229,12 @@ on post-fs-data
     write /sys/devices/system/cpu/cpufreq/ondemand/sampling_rate 50000
     write /sys/devices/system/cpu/cpufreq/ondemand/io_is_busy 1
     write /sys/devices/system/cpu/cpufreq/ondemand/sampling_down_factor 4
+    write /sys/devices/system/cpu/cpufreq/ondemand/down_differential 10
+    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold_multi_core 60
+    write /sys/devices/system/cpu/cpufreq/ondemand/down_differential_multi_core 3
+    write /sys/devices/system/cpu/cpufreq/ondemand/optimal_freq 918000
+    write /sys/devices/system/cpu/cpufreq/ondemand/sync_freq 1026000
+    write /sys/devices/system/cpu/cpufreq/ondemand/up_threshold_any_cpu_load 80
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_min_freq 384000
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 384000
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 384000
@@ -272,7 +278,7 @@ service rmt_storage /system/bin/rmt_storage
 service hciattach /system/bin/sh /system/etc/init.mako.bt.sh
     class late_start
     user bluetooth
-    group qcom_oncrpc bluetooth net_bt_admin system
+    group qcom_oncrpc bluetooth net_bt_admin system net_bt_stack
     seclabel u:r:bluetooth_loader:s0
     disabled
     oneshot
@@ -292,7 +298,7 @@ service bridgemgrd /system/bin/bridgemgrd
 service qmuxd /system/bin/qmuxd
     class main
     user radio
-    group radio audio bluetooth gps
+    group radio audio bluetooth gps net_bt_stack
 
 service kickstart /system/bin/qcks -i /firmware/image/ -r /data/tombstones/mdm/
     class core
@@ -412,7 +418,7 @@ service conn_init /system/bin/conn_init
 service bdAddrLoader /system/bin/bdAddrLoader -f /persist/bluetooth/.bdaddr -h -x
     class main
     user bluetooth
-    group system bluetooth
+    group system bluetooth net_bt_stack
     oneshot
 
 # bugreport is triggered by holding down volume down, volume up and power
@@ -424,9 +430,9 @@ service bugreport /system/bin/dumpstate -d -p -B \
     keycodes 114 115 116
 
 service qseecomd /system/bin/qseecomd
-    class core
-    user root
-    group root
+    class late_start
+    user system
+    group system
 
 service diag_mdlog /system/bin/diag_mdlog -s 100
     class late_start
