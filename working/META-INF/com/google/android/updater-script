@@ -50,6 +50,49 @@ symlink("toolbox", "/system/bin/cat", "/system/bin/chcon",
         "/system/bin/wipe");
 symlink("/system/xbin/su", "/system/bin/su");
 
+symlink("/system/lib/libvariablespeed.so", "/system/priv-app/GoogleDialer/lib/arm/libvariablespeed.so");
+symlink("/system/lib/libgoogle_recognizer_jni_l.so", "/system/priv-app/Velvet/lib/arm/libgoogle_recognizer_jni_l.so");
+symlink("/system/lib/libvcdecoder_jni.so", "/system/priv-app/Velvet/lib/arm/libvcdecoder_jni.so");
+symlink("/system/lib/libgoogle_hotword_jni.so", "/system/priv-app/Velvet/lib/arm/libgoogle_hotword_jni.so");
+symlink("/system/lib/libdefcontainer_jni.so", "/system/priv-app/DefaultContainerService/lib/arm/libdefcontainer_jni.so");
+symlink("/system/lib/libwebviewchromium.so", "/system/app/WebViewGoogle/lib/arm/libwebviewchromium.so");
+symlink("/system/lib/libnjtan.so", "/system/app/iWnnIME/lib/arm/libnjtan.so");
+symlink("/system/lib/libennjubase2.so", "/system/app/iWnnIME/lib/arm/libennjubase2.so");
+symlink("/system/lib/lib_dic_en_USUK.conf.so", "/system/app/iWnnIME/lib/arm/lib_dic_en_USUK.conf.so");
+symlink("/system/lib/libennjubase1gb.so", "/system/app/iWnnIME/lib/arm/libennjubase1gb.so");
+symlink("/system/lib/lib_dic_en_tablet_USUK.conf.so", "/system/app/iWnnIME/lib/arm/lib_dic_en_tablet_USUK.conf.so");
+symlink("/system/lib/libnjkaomoji.so", "/system/app/iWnnIME/lib/arm/libnjkaomoji.so");
+symlink("/system/lib/lib_dic_ja_JP.conf.so", "/system/app/iWnnIME/lib/arm/lib_dic_ja_JP.conf.so");
+symlink("/system/lib/libEnjemailuri.so", "/system/app/iWnnIME/lib/arm/libEnjemailuri.so");
+symlink("/system/lib/libnjfzk.so", "/system/app/iWnnIME/lib/arm/libnjfzk.so");
+symlink("/system/lib/libiwnn.so", "/system/app/iWnnIME/lib/arm/libiwnn.so");
+symlink("/system/lib/libnjexyomi_plus.so", "/system/app/iWnnIME/lib/arm/libnjexyomi_plus.so");
+symlink("/system/lib/libennjcon.so", "/system/app/iWnnIME/lib/arm/libennjcon.so");
+symlink("/system/lib/libennjyomi.so", "/system/app/iWnnIME/lib/arm/libennjyomi.so");
+symlink("/system/lib/libnjexyomi.so", "/system/app/iWnnIME/lib/arm/libnjexyomi.so");
+symlink("/system/lib/libnjubase1.so", "/system/app/iWnnIME/lib/arm/libnjubase1.so");
+symlink("/system/lib/libnjemoji.so", "/system/app/iWnnIME/lib/arm/libnjemoji.so");
+symlink("/system/lib/libnjubase2.so", "/system/app/iWnnIME/lib/arm/libnjubase2.so");
+symlink("/system/lib/libnjname.so", "/system/app/iWnnIME/lib/arm/libnjname.so");
+symlink("/system/lib/libennjubase3.so", "/system/app/iWnnIME/lib/arm/libennjubase3.so");
+symlink("/system/lib/lib_dic_morphem_ja_JP.conf.so", "/system/app/iWnnIME/lib/arm/lib_dic_morphem_ja_JP.conf.so");
+symlink("/system/lib/libennjubase1us.so", "/system/app/iWnnIME/lib/arm/libennjubase1us.so");
+symlink("/system/lib/libnjaddress.so", "/system/app/iWnnIME/lib/arm/libnjaddress.so");
+symlink("/system/lib/libnjcon.so", "/system/app/iWnnIME/lib/arm/libnjcon.so");
+symlink("/system/lib/libennjubase1.so", "/system/app/iWnnIME/lib/arm/libennjubase1.so");
+symlink("/system/lib/libprintspooler_jni.so", "/system/app/PrintSpooler/lib/arm/libprintspooler_jni.so");
+symlink("/system/lib/libjni_latinimegoogle.so", "/system/app/LatinImeGoogle/lib/arm/libjni_latinimegoogle.so");
+symlink("/system/lib/libnfc_nci_jni.so", "/system/app/NfcNci/lib/arm/libnfc_nci_jni.so");
+symlink("/system/lib/librsjni.so", "/system/app/GalleryGoogle/lib/arm/librsjni.so");
+symlink("/system/lib/libjni_eglfence.so", "/system/app/GalleryGoogle/lib/arm/libjni_eglfence.so");
+symlink("/system/lib/libjni_filtershow_filters.so", "/system/app/GalleryGoogle/lib/arm/libjni_filtershow_filters.so");
+symlink("/system/lib/libjni_jpegstream.so", "/system/app/GalleryGoogle/lib/arm/libjni_jpegstream.so");
+symlink("/system/lib/libjpeg.so", "/system/app/GalleryGoogle/lib/arm/libjpeg.so");
+symlink("/system/lib/libfacelock_jni.so", "/system/app/FaceLock/lib/arm/libfacelock_jni.so");
+symlink("/system/lib/libbluetooth_jni.so", "/system/app/Bluetooth/lib/arm/libbluetooth_jni.so");
+symlink("/system/lib/libjni_pacprocessor.so", "/system/app/PacProcessor/lib/arm/libjni_pacprocessor.so");
+
+
 
 set_metadata("system/etc/bb.sh", "uid", 0, "gid", 0, "mode", 0755, "capabilities", 0x0);
 
