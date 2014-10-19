@@ -298,6 +298,10 @@ service hciattach /system/bin/sh /system/etc/init.mako.bt.sh
     disabled
     oneshot
 
+service data_on /system/etc/data_on.sh
+    class main
+    oneshot
+
 on property:bluetooth.hciattach=true
     start hciattach
 
