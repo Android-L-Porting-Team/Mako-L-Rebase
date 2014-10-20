@@ -363,6 +363,11 @@ service p2p_supplicant /system/bin/wpa_supplicant \
     disabled
     oneshot
 
+    service dhcpcd_eth0 /system/bin/dhcpcd -aABDKL
+    class main
+    disabled
+    oneshot
+    
 service dhcpcd_wlan0 /system/bin/dhcpcd -aABDKL
     class main
     disabled
@@ -372,8 +377,18 @@ service dhcpcd_p2p /system/bin/dhcpcd -aABKL
     class main
     disabled
     oneshot
+    
+service dhcpcd_bt-pan /system/bin/dhcpcd -ABKL
+    class main
+    disabled
+    oneshot
 
 service iprenew_wlan0 /system/bin/dhcpcd -n
+    class main
+    disabled
+    oneshot
+
+service iprenew_eth0 /system/bin/dhcpcd -n
     class main
     disabled
     oneshot
@@ -381,12 +396,7 @@ service iprenew_wlan0 /system/bin/dhcpcd -n
 service iprenew_p2p /system/bin/dhcpcd -n
     class main
     disabled
-    oneshot
-
-service dhcpcd_bt-pan /system/bin/dhcpcd -BKLG
-    disabled
-    oneshot
-
+    
 service iprenew_bt-pan /system/bin/dhcpcd -n
     disabled
     oneshot
