@@ -35,7 +35,6 @@ ro.build.product=mako
 # Do not try to parse description, fingerprint, or thumbprint
 ro.build.description=occam-user 5.0 LPX13D 1519572 release-keys
 ro.build.fingerprint=google/occam/mako:5.0/LPX13D/1519572:user/release-keys
-ro.build.thumbprint=L/LPV81C/1320585:user/dev-keys
 ro.build.characteristics=nosdcard
 ## end build properties
 ##
