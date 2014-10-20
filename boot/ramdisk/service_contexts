@@ -121,25 +121,5 @@ wifip2p                                   u:object_r:system_server_service:s0
 wifiscanner                               u:object_r:system_server_service:s0
 wifi                                      u:object_r:system_server_service:s0
 window                                    u:object_r:system_server_service:s0
-net_bt_admin                              u:object_r:system_server_service:s0 	
-net_bt                                    u:object_r:system_server_service:s0 	
-net_bt_stack                              u:object_r:system_server_service:s0 	
-vpn                                       u:object_r:system_server_service:s0 	
-inet                                      u:object_r:system_server_service:s0 	
-log                                       u:object_r:system_server_service:s0 	
-sdcard_r                                  u:object_r:system_server_service:s0 	
-sdcard_rw                                 u:object_r:system_server_service:s0 	
-sdcard_all                                u:object_r:system_server_service:s0 	
-media_rw                                  u:object_r:system_server_service:s0 	
-mtp                                       u:object_r:system_server_service:s0 	
-net_admin                                 u:object_r:system_server_service:s0 	
-cache                                     u:object_r:system_server_service:s0 	
-input                                     u:object_r:system_server_service:s0 	
-diag                                      u:object_r:system_server_service:s0 	
-net_bw_stats                              u:object_r:system_server_service:s0 	
-net_bw_acct                               u:object_r:system_server_service:s0 	
-loop_radio                                u:object_r:radio_service:s0 	
-media                                     u:object_r:surfaceflinger_service:s0 	
-graphics                                  u:object_r:system_server_service:s0
 
 *                                         u:object_r:default_android_service:s0
