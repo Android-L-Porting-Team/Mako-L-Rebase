@@ -261,7 +261,25 @@ on post-fs-data
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 384000
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 384000
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 384000
-
+    write /sys/module/pm_8x60/modes/cpu0/wfi/suspend_enabled
+    write /sys/module/pm_8x60/modes/cpu0/power_collapse/suspend_enabled
+    write /sys/module/pm_8x60/modes/cpu1/power_collapse/suspend_enabled
+    write /sys/module/pm_8x60/modes/cpu2/power_collapse/suspend_enabled
+    write /sys/module/pm_8x60/modes/cpu3/power_collapse/suspend_enabled
+    write /sys/module/pm_8x60/modes/cpu0/standalone_power_collapse/suspend_enabled
+    write /sys/module/pm_8x60/modes/cpu1/standalone_power_collapse/suspend_enabled
+    write /sys/module/pm_8x60/modes/cpu2/standalone_power_collapse/suspend_enabled
+    write /sys/module/pm_8x60/modes/cpu3/standalone_power_collapse/suspend_enabled
+    write /sys/module/pm_8x60/modes/cpu0/retention/idle_enabled
+    write /sys/module/pm_8x60/modes/cpu1/retention/idle_enabled
+    write /sys/module/pm_8x60/modes/cpu2/retention/idle_enabled
+    write /sys/module/pm_8x60/modes/cpu3/retention/idle_enabled
+    write /sys/module/rpm_resources/enable_low_power/L2_cache
+    write /sys/module/rpm_resources/enable_low_power/pxo
+    write /sys/module/rpm_resources/enable_low_power/vdd_dig
+    write /sys/module/rpm_resources/enable_low_power/vdd_mem
+    write /dev/cpuctl/apps/cpu.notify_on_migrate
+    
 on charger
     # Enable Power modes and set the CPU Freq Sampling rates
     write /sys/module/rpm_resources/enable_low_power/L2_cache 1
@@ -273,6 +291,7 @@ on charger
     write /sys/module/pm_8x60/modes/cpu2/power_collapse/suspend_enabled 1
     write /sys/module/pm_8x60/modes/cpu3/power_collapse/suspend_enabled 1
     write /sys/module/pm_8x60/modes/cpu0/power_collapse/idle_enabled 1
+    
     write /sys/devices/system/cpu/cpu0/cpufreq/scaling_governor "powersave"
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_governor "powersave"
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_governor "powersave"
