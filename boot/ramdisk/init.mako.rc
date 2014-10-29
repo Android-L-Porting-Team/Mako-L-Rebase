@@ -261,24 +261,6 @@ on post-fs-data
     write /sys/devices/system/cpu/cpu1/cpufreq/scaling_min_freq 384000
     write /sys/devices/system/cpu/cpu2/cpufreq/scaling_min_freq 384000
     write /sys/devices/system/cpu/cpu3/cpufreq/scaling_min_freq 384000
-    write /sys/module/pm_8x60/modes/cpu0/wfi/suspend_enabled 1
-    write /sys/module/pm_8x60/modes/cpu0/power_collapse/suspend_enabled 1
-    write /sys/module/pm_8x60/modes/cpu1/power_collapse/suspend_enabled 1
-    write /sys/module/pm_8x60/modes/cpu2/power_collapse/suspend_enabled 1
-    write /sys/module/pm_8x60/modes/cpu3/power_collapse/suspend_enabled 1
-    write /sys/module/pm_8x60/modes/cpu0/standalone_power_collapse/suspend_enabled 1
-    write /sys/module/pm_8x60/modes/cpu1/standalone_power_collapse/suspend_enabled 1
-    write /sys/module/pm_8x60/modes/cpu2/standalone_power_collapse/suspend_enabled 1
-    write /sys/module/pm_8x60/modes/cpu3/standalone_power_collapse/suspend_enabled 1
-    write /sys/module/pm_8x60/modes/cpu0/retention/idle_enabled 1
-    write /sys/module/pm_8x60/modes/cpu1/retention/idle_enabled 1
-    write /sys/module/pm_8x60/modes/cpu2/retention/idle_enabled 1
-    write /sys/module/pm_8x60/modes/cpu3/retention/idle_enabled 1
-    write /sys/module/rpm_resources/enable_low_power/L2_cache 1
-    write /sys/module/rpm_resources/enable_low_power/pxo 1
-    write /sys/module/rpm_resources/enable_low_power/vdd_dig 1
-    write /sys/module/rpm_resources/enable_low_power/vdd_mem 1
-    write /dev/cpuctl/apps/cpu.notify_on_migrate 1
     
 on charger
     # Enable Power modes and set the CPU Freq Sampling rates
