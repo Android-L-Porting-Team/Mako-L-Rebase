@@ -62,11 +62,5 @@ ctl.                    u:object_r:ctl_default_prop:s0
 
 # NFC properties
 nfc.                    u:object_r:nfc_prop:s0
-
-# These properties are not normally set by processes other than init.
-# They are only distinguished here for setting by qemu-props on the
-# emulator/goldfish.
-config.                 u:object_r:config_prop:s0
-dalvik.                 u:object_r:dalvik_prop:s0
 #line 1 "device/lge/mako/sepolicy/property_contexts"
 ctl.rmt            u:object_r:ctl_rmt_prop:s0

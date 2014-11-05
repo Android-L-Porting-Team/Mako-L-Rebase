@@ -207,9 +207,6 @@ on post-fs
     chown system cache /cache/recovery
     chmod 0770 /cache/recovery
 
-    # This may have been created by the recovery system with the wrong context.
-    restorecon /cache/recovery
-
     #change permissions on vmallocinfo so we can grab it from bugreports
     chown root log /proc/vmallocinfo
     chmod 0440 /proc/vmallocinfo
@@ -599,6 +596,7 @@ service installd /system/bin/installd
 
 service flash_recovery /system/bin/install-recovery.sh
     class main
+    seclabel u:r:install_recovery:s0
     oneshot
 
 service racoon /system/bin/racoon

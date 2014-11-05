@@ -124,9 +124,6 @@
 # System files
 #
 /system(/.*)?		u:object_r:system_file:s0
-/system/bin/e2fsck	--	u:object_r:fsck_exec:s0
-/system/bin/toolbox	--	u:object_r:toolbox_exec:s0
-/system/bin/logcat	--	u:object_r:logcat_exec:s0
 /system/bin/sh		--	u:object_r:shell_exec:s0
 /system/bin/run-as	--	u:object_r:runas_exec:s0
 /system/bin/bootanimation u:object_r:bootanim_exec:s0
@@ -207,12 +204,14 @@
 /data/misc/bluedroid/\.a2dp_data u:object_r:bluetooth_socket:s0
 /data/misc/camera(/.*)?         u:object_r:camera_data_file:s0
 /data/misc/dhcp(/.*)?           u:object_r:dhcp_data_file:s0
+/data/misc/keychain(/.*)?       u:object_r:keychain_data_file:s0
 /data/misc/keystore(/.*)?       u:object_r:keystore_data_file:s0
 /data/misc/media(/.*)?          u:object_r:media_data_file:s0
 /data/misc/net(/.*)?            u:object_r:net_data_file:s0
 /data/misc/shared_relro(/.*)?   u:object_r:shared_relro_file:s0
 /data/misc/sms(/.*)?            u:object_r:radio_data_file:s0
 /data/misc/systemkeys(/.*)?     u:object_r:systemkeys_data_file:s0
+/data/misc/user(/.*)?           u:object_r:misc_user_data_file:s0
 /data/misc/vpn(/.*)?            u:object_r:vpn_data_file:s0
 /data/misc/wifi(/.*)?           u:object_r:wifi_data_file:s0
 /data/misc/wifi/sockets(/.*)?   u:object_r:wpa_socket:s0
@@ -334,8 +333,6 @@
 # Block labeling
 /dev/block/mmcblk0p[89]            u:object_r:efs_block_device:s0
 /dev/block/mmcblk0                 u:object_r:root_block_device:s0
-/dev/block/platform/msm_sdcc\.1/by-name/userdata u:object_r:userdata_block_device:s0
-/dev/block/platform/msm_sdcc\.1/by-name/cache u:object_r:cache_block_device:s0
 
 /data/cam_socket[0-9]              u:object_r:camera_socket:s0
 /data/app/sensor_ctl_socket        u:object_r:sensors_socket:s0
