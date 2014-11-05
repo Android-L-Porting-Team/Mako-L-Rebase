@@ -211,7 +211,6 @@
 76002 tts_speak_failure (engine|3),(caller_uid|1),(caller_pid|1),(length|1),(locale|3),(rate|1),(pitch|1)
 76003 tts_v2_speak_success (engine|3),(caller_uid|1),(caller_pid|1),(length|1),(request_config|3),(engine_latency|2|3),(engine_total|2|3),(audio_latency|2|3)
 76004 tts_v2_speak_failure (engine|3),(caller_uid|1),(caller_pid|1),(length|1),(request_config|3), (statusCode|1)
-77016 faceunlock (first|1), (second|1), (third|1)
 78001 exp_det_dispatchCommand_overflow
 80100 bionic_event_memcpy_buffer_overflow (uid|1)
 80105 bionic_event_strcat_buffer_overflow (uid|1)
@@ -254,6 +253,4 @@
 205011 google_mail_switch (direction|1)
 206001 snet (payload|3)
 206003 exp_det_snet (payload|3)
-207000 full_backup_upload (status|3)
-207001 full_backup_download (status|3)
 1397638484 snet_event_log (subtag|3) (uid|1) (message|3)
